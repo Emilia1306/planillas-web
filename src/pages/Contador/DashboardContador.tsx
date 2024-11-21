@@ -8,29 +8,21 @@ import accountantImage from "../../assets/accountant.png";
 const DashboardContador: React.FC = () => {
   // Simulación de datos
   const unidades = [
-    { id: 1, nombre: "Biblioteca", link: "/unidades/biblioteca" },
-    { id: 2, nombre: "Departamento de Idiomas", link: "/unidades/idiomas" },
-    {
-      id: 3,
-      nombre: "Servicios Estudiantiles",
-      link: "/unidades/estudiantiles",
-    },
-    { id: 4, nombre: "Clínica Universitaria", link: "/unidades/clinica" },
+    { id: 1, nombre: "Biblioteca", link: "/contador/unidad/" },
+    { id: 2, nombre: "Departamento de Idiomas", link: "/contador/unidad/" },
+    { id: 3, nombre: "Servicios Estudiantiles", link: "/contador/unidad/" },
+    { id: 4, nombre: "Clínica Universitaria", link: "/contador/unidad/" },
   ];
 
   const facultades = [
-    { id: 1, nombre: "Facultad de Ingeniería", link: "/facultades/ingenieria" },
-    {
-      id: 2,
-      nombre: "Facultad de Ciencias Económicas",
-      link: "/facultades/economia",
-    },
-    { id: 3, nombre: "Facultad de Medicina", link: "/facultades/medicina" },
-    { id: 4, nombre: "Facultad de Derecho", link: "/facultades/derecho" },
+    { id: 1, nombre: "Facultad de Ingeniería", link: "/contador/unidad/" },
+    { id: 2, nombre: "Facultad de Ciencias Económicas", link: "/contador/unidad" },
+    { id: 3, nombre: "Facultad de Medicina", link: "/contador/unidad/" },
+    { id: 4, nombre: "Facultad de Derecho", link: "/contador/unidad/" },
   ];
 
   return (
-    <div className="d-flex flex-column ">
+    <div className="d-flex flex-column">
       {/* Navbar del contador */}
       <NavbarContador userName="María Gonzáles" userRole="Contador/a" />
 
@@ -49,11 +41,10 @@ const DashboardContador: React.FC = () => {
             >
               <div className="row g-0 d-flex align-items-center">
                 <div className="col-md-8">
-                  <div className="card-body py-4 ">
+                  <div className="card-body py-4">
                     <h1 className="card-title">Hola, María</h1>
                     <p className="card-text">
-                      Ahora es un buen día para gestionar los sueldos de
-                      nuestros empleados :)
+                      Ahora es un buen día para gestionar los sueldos de nuestros empleados :)
                     </p>
                   </div>
                 </div>
@@ -76,7 +67,7 @@ const DashboardContador: React.FC = () => {
         {/* Tabs */}
         <div className="row my-5 mx-2">
           <div className="col-md-12">
-            <ul className="nav nav-tabs" id="tabs">
+            <ul className="nav nav-tabs" id="tabs" style={{ borderBottom: "1px solid #ccc" }}>
               <li className="nav-item">
                 <button
                   className="nav-link active"
@@ -87,6 +78,12 @@ const DashboardContador: React.FC = () => {
                   role="tab"
                   aria-controls="unidades"
                   aria-selected="true"
+                  style={{
+                    border: "none",
+                    color: "#495057",
+                    fontWeight: "bold",
+                    backgroundColor: "transparent",
+                  }}
                 >
                   Unidades
                 </button>
@@ -101,6 +98,12 @@ const DashboardContador: React.FC = () => {
                   role="tab"
                   aria-controls="facultades"
                   aria-selected="false"
+                  style={{
+                    border: "none",
+                    color: "#495057",
+                    fontWeight: "bold",
+                    backgroundColor: "transparent",
+                  }}
                 >
                   Facultades
                 </button>
@@ -116,11 +119,7 @@ const DashboardContador: React.FC = () => {
               >
                 <div className="row">
                   {unidades.map((unidad) => (
-                    <Card
-                      key={unidad.id}
-                      title={unidad.nombre}
-                      link={unidad.link}
-                    />
+                    <Card key={unidad.id} title={unidad.nombre} link={unidad.link} />
                   ))}
                 </div>
               </div>
@@ -133,11 +132,7 @@ const DashboardContador: React.FC = () => {
               >
                 <div className="row">
                   {facultades.map((facultad) => (
-                    <Card
-                      key={facultad.id}
-                      title={facultad.nombre}
-                      link={facultad.link}
-                    />
+                    <Card key={facultad.id} title={facultad.nombre} link={facultad.link} />
                   ))}
                 </div>
               </div>

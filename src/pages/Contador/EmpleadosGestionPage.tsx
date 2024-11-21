@@ -1,18 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import NavbarContador from "../../components/NavbarContador";
+import UserModal from "../../components/ModalUser"; // Asegúrate de tener esta modal creada e importada
 import $ from "jquery";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import "datatables.net-bs5";
 
 interface Employee {
-  id: number;
+  id?: number;
   nombres: string;
   apellidos: string;
   email: string;
 }
 
 const EmployeesGestionPage: React.FC = () => {
-  const employees: Employee[] = [
+  const [employees, setEmployees] = useState<Employee[]>([
     {
       id: 1,
       nombres: "Juanito Kevin",
@@ -21,17 +22,22 @@ const EmployeesGestionPage: React.FC = () => {
     },
     {
       id: 2,
-      nombres: "Juanito Kevin",
-      apellidos: "Cortez Padilla",
-      email: "aidonnowwhatcaniput@mail.com",
+      nombres: "María López",
+      apellidos: "Pérez García",
+      email: "maria.lopez@example.com",
     },
     {
       id: 3,
-      nombres: "Juanito Kevin",
-      apellidos: "Cortez Padilla",
-      email: "aidonnowwhatcaniput@mail.com",
+      nombres: "Carlos Alberto",
+      apellidos: "Rodríguez Salazar",
+      email: "carlos.rodriguez@example.com",
     },
-  ];
+  ]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null
+  );
 
   useEffect(() => {
     const table = $("#employeesTable").DataTable({
@@ -43,24 +49,42 @@ const EmployeesGestionPage: React.FC = () => {
     });
 
     return () => {
-      // Destruye la instancia de DataTable al desmontar el componente
       table.destroy();
     };
-  }, []);
+  }, [employees]); // Se vuelve a inicializar cuando cambian los empleados
 
   const handleAddEmployee = () => {
-    console.log("Añadir nuevo empleado");
-    // Lógica para añadir un nuevo empleado
+    setSelectedEmployee(null); // Limpia cualquier empleado seleccionado
+    setIsModalOpen(true); // Abre la modal
   };
 
-  const handleEdit = (id: number) => {
-    console.log(`Editar empleado con ID: ${id}`);
-    // Lógica para editar empleado
+  const handleEdit = (employee: Employee) => {
+    setSelectedEmployee(employee); // Carga el empleado en la modal
+    setIsModalOpen(true); // Abre la modal
   };
 
   const handleDelete = (id: number) => {
-    console.log(`Eliminar empleado con ID: ${id}`);
     // Lógica para eliminar empleado
+    setEmployees((prev) => prev.filter((employee) => employee.id !== id));
+    console.log(`Empleado con ID ${id} eliminado.`);
+  };
+
+  const handleSave = (data: Employee) => {
+    if (selectedEmployee) {
+      // Actualizar empleado
+      setEmployees((prev) =>
+        prev.map((employee) =>
+          employee.id === selectedEmployee.id ? { ...employee, ...data } : employee
+        )
+      );
+      console.log("Empleado actualizado:", data);
+    } else {
+      // Agregar nuevo empleado
+      const newId = employees.length + 1;
+      setEmployees((prev) => [...prev, { ...data, id: newId }]);
+      console.log("Empleado agregado:", data);
+    }
+    setIsModalOpen(false); // Cierra la modal
   };
 
   return (
@@ -153,7 +177,7 @@ const EmployeesGestionPage: React.FC = () => {
                         marginRight: "10px",
                         border: "none",
                       }}
-                      onClick={() => handleEdit(employee.id)}
+                      onClick={() => handleEdit(employee)}
                     >
                       Editar
                     </button>
@@ -166,7 +190,7 @@ const EmployeesGestionPage: React.FC = () => {
                         padding: "5px 15px",
                         border: "none",
                       }}
-                      onClick={() => handleDelete(employee.id)}
+                      onClick={() => handleDelete(employee.id!)}
                     >
                       Eliminar
                     </button>
@@ -177,6 +201,14 @@ const EmployeesGestionPage: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {/* Modal para agregar/editar empleado */}
+      <UserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave}
+        user={selectedEmployee}
+      />
     </div>
   );
 };

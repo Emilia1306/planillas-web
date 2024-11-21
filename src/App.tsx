@@ -11,6 +11,8 @@ import DashboardEmpleado from "./pages/Empleado/DashboardEmpleado";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import PlanillaDetalle from "./pages/Contador/PlanillaDetalle";
+import UserProfile from "./pages/Empleado/PerfilEmpleado";
+import EditUserForm from "./pages/Empleado/EditarPerfilEmpleado";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
         <Route path="/contador/facultades" element={<FacultadesPage />} />
         <Route path="/empleado/dashboard" element={<DashboardEmpleado />} />
         <Route path="/contador/planilla/detalle" element={<PlanillaDetalle />} />
+        <Route path="/empleado/perfil" element={<UserProfile />} />
+        <Route path="/empleado/perfil/editar-perfil" element={<EditUserForm />} />
       </Routes>
     </Router>
   );

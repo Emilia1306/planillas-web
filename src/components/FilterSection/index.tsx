@@ -10,7 +10,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({ meses, years }) => {
     <form>
       <div className="d-flex justify-content-between align-items-center mb-3">
         {/* Crear Planilla */}
-        <a href="/crear-planilla" className="btn btn-custom text-decoration-none me-2" style={{backgroundColor: "#c1d9d4"}}>
+        <a href="/contador/crear" className="btn btn-custom text-decoration-none me-2" style={{backgroundColor: "#c1d9d4"}}>
           Crear Planilla
         </a>
 
