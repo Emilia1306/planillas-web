@@ -9,8 +9,6 @@ import "datatables.net-bs5";
 
 const DashboardEmpleado: React.FC = () => {
   // Simulación de datos
-  const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo"];
-  const years = [2021, 2022, 2023];
 
   const planillas = [
     {
