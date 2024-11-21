@@ -1,8 +1,11 @@
 import React from "react";
 import NavbarContador from "../../components/NavbarContador";
 import EmployeeTable from "../../components/TablaEmpleados";
+import { useNavigate } from "react-router-dom";
 
 const EmployeesPage: React.FC = () => {
+  const navigate = useNavigate();
+
   // Simulación de datos
   const employees = [
     {
@@ -10,25 +13,29 @@ const EmployeesPage: React.FC = () => {
       nombres: "Juanito Kevin",
       apellidos: "Cortez Padilla",
       email: "aidonnowwhatcaniput@mail.com",
-      planillaLink: "/planilla/1",
+      planillaLink: "/contador/planilla/",
     },
     {
       id: 2,
       nombres: "Juanito Kevin",
       apellidos: "Cortez Padilla",
       email: "aidonnowwhatcaniput@mail.com",
-      planillaLink: "/planilla/2",
+      planillaLink: "/contador/planilla/",
     },
     {
       id: 3,
       nombres: "Juanito Kevin",
       apellidos: "Cortez Padilla",
       email: "aidonnowwhatcaniput@mail.com",
-      planillaLink: "/planilla/3",
+      planillaLink: "/contador/planilla/",
     },
   ];
 
   const title = "Facultad"; // Cambiar dinámicamente según la unidad o facultad
+
+  const handleViewPlanilla = (planillaLink: string) => {
+    navigate(planillaLink); // Navega a la ruta de la planilla
+  };
 
   return (
     <div
@@ -72,7 +79,43 @@ const EmployeesPage: React.FC = () => {
 
         {/* Employee Table */}
         <div style={{ flex: 1, overflowY: "auto" }}>
-          <EmployeeTable employees={employees} />
+          <table className="table table-hover table-striped text-center">
+            <thead>
+              <tr>
+                <th>ID Empleado</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employees.map((employee) => (
+                <tr key={employee.id}>
+                  <td>{employee.id}</td>
+                  <td>{employee.nombres}</td>
+                  <td>{employee.apellidos}</td>
+                  <td>{employee.email}</td>
+                  <td>
+                    <button
+                      className="btn"
+                      style={{
+                        backgroundColor: "#c1d9d4",
+                        color: "#2f3e55",
+                        borderRadius: "10px",
+                        padding: "5px 15px",
+                        border: "none",
+                        marginRight: "10px",
+                      }}
+                      onClick={() => handleViewPlanilla(employee.planillaLink)}
+                    >
+                      Ver Planilla
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
