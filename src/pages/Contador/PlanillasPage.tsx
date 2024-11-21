@@ -1,45 +1,78 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavbarContador from "../../components/NavbarContador";
-import PlanillaTable from "../../components/PlanillaTable";
 import FilterSection from "../../components/FilterSection";
+
+interface Planilla {
+  id: number;
+  mes: string;
+  anio: number;
+  sueldoBase: number;
+  diasLaborados: number;
+  salarioLiquido: number;
+  detalleLink: string;
+}
 
 const PlanillasPage: React.FC = () => {
   const navigate = useNavigate();
 
-  // Datos simulados
-  const planillas = [
-    {
-      id: 1,
-      mes: "Enero",
-      anio: 2023,
-      sueldoBase: 1200.0,
-      diasLaborados: 25,
-      salarioLiquido: 1150.0,
-      detalleLink: "/contador/planilla/detalle/",
-    },
-    {
-      id: 2,
-      mes: "Febrero",
-      anio: 2023,
-      sueldoBase: 1200.0,
-      diasLaborados: 20,
-      salarioLiquido: 1100.0,
-      detalleLink: "/contador/planilla/detalle/",
-    },
-    {
-      id: 3,
-      mes: "Marzo",
-      anio: 2023,
-      sueldoBase: 1200.0,
-      diasLaborados: 22,
-      salarioLiquido: 1120.0,
-      detalleLink: "/contador/planilla/detalle/",
-    },
-  ];
+  // Estado para manejar los datos del empleado
+  const [empleado, setEmpleado] = useState({
+    id: 1,
+    nombres: "Juanito Kevin",
+    apellidos: "Cortez Padilla",
+  });
 
-  const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo"];
-  const years = [2021, 2022, 2023];
+  const [planillas, setPlanillas] = useState<Planilla[]>([]);
+  const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  const years = [2021, 2022, 2023, 2024];
+
+  useEffect(() => {
+    // Simulación de datos cargados dinámicamente
+    const fetchPlanillas = async () => {
+      // Aquí podrías hacer una llamada a la API para obtener las planillas
+      const fetchedData = [
+        {
+          id: 1,
+          mes: "Enero",
+          anio: 2023,
+          sueldoBase: 1200.0,
+          diasLaborados: 25,
+          salarioLiquido: 1150.0,
+          detalleLink: "/contador/planilla/detalle/1",
+        },
+        {
+          id: 2,
+          mes: "Febrero",
+          anio: 2023,
+          sueldoBase: 1200.0,
+          diasLaborados: 20,
+          salarioLiquido: 1100.0,
+          detalleLink: "/contador/planilla/detalle/2",
+        },
+        {
+          id: 3,
+          mes: "Marzo",
+          anio: 2023,
+          sueldoBase: 1200.0,
+          diasLaborados: 22,
+          salarioLiquido: 1120.0,
+          detalleLink: "/contador/planilla/detalle/3",
+        },
+      ];
+      setPlanillas(fetchedData);
+
+      // Simulación de llamada para obtener datos del empleado
+      const fetchedEmpleado = {
+        id: 1,
+        nombres: "Juanito Kevin",
+        apellidos: "Cortez Padilla",
+      };
+      setEmpleado(fetchedEmpleado);
+    };
+
+    fetchPlanillas();
+  }, []);
 
   const handleViewDetail = (detalleLink: string) => {
     navigate(detalleLink); // Navega a la ruta del detalle de la planilla
@@ -50,8 +83,8 @@ const PlanillasPage: React.FC = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
-        width: "100vw",
+        height: "100vh", // Ocupa toda la altura de la pantalla
+        width: "100vw", // Ocupa todo el ancho disponible
         overflow: "hidden",
         backgroundColor: "#ffffff",
       }}
@@ -62,7 +95,7 @@ const PlanillasPage: React.FC = () => {
       <div
         className="mx-2"
         style={{
-          flex: 1,
+          flex: 1, // Permite que el contenido crezca para llenar el espacio restante
           display: "flex",
           flexDirection: "column",
           padding: "20px",
@@ -81,7 +114,9 @@ const PlanillasPage: React.FC = () => {
             textAlign: "left",
           }}
         >
-          <h3>Planillas de Juanito Kevin Cortez Padilla</h3>
+          <h3>
+            Planillas de {empleado.nombres} {empleado.apellidos}
+          </h3>
         </div>
 
         {/* Filtros */}
@@ -104,26 +139,86 @@ const PlanillasPage: React.FC = () => {
             flexDirection: "column",
           }}
         >
-          <table className="table table-hover table-striped text-center">
-            <thead>
+          <table
+            className="table table-hover"
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              textAlign: "center",
+              fontSize: "16px",
+            }}
+          >
+            <thead style={{ backgroundColor: "#f0f0f0" }}>
               <tr>
-                <th>Mes</th>
-                <th>Año</th>
-                <th>Sueldo Base</th>
-                <th>Días Laborados</th>
-                <th>Salario Líquido</th>
-                <th>Acciones</th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Mes
+                </th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Año
+                </th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Sueldo Base
+                </th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Días Laborados
+                </th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Salario Líquido
+                </th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody>
               {planillas.map((planilla) => (
                 <tr key={planilla.id}>
-                  <td>{planilla.mes}</td>
-                  <td>{planilla.anio}</td>
-                  <td>${planilla.sueldoBase.toFixed(2)}</td>
-                  <td>{planilla.diasLaborados}</td>
-                  <td>${planilla.salarioLiquido.toFixed(2)}</td>
-                  <td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {planilla.mes}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {planilla.anio}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    ${planilla.sueldoBase.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {planilla.diasLaborados}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    ${planilla.salarioLiquido.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
                     <button
                       className="btn"
                       style={{

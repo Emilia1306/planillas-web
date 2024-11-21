@@ -1,15 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import NavbarEmpleado from "../../components/NavbarEmpleado";
 import employeeImage from "../../assets/employee.png";
-import $ from "jquery";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-import "datatables.net-bs5";
 
 const DashboardEmpleado: React.FC = () => {
   // Simulación de datos
-
   const planillas = [
     {
       mes: "Enero",
@@ -34,21 +28,6 @@ const DashboardEmpleado: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    // Inicializar DataTable
-    const table = $("#planillasTable").DataTable({
-      paging: true,
-      searching: true,
-      info: true,
-      destroy: true, // Permite reinicializar si ya existe
-    });
-
-    return () => {
-      // Destruir la instancia de DataTable al desmontar el componente
-      table.destroy();
-    };
-  }, []);
-
   return (
     <div className="d-flex flex-column" style={{ backgroundColor: "#FFFFFF" }}>
       {/* Navbar del empleado */}
@@ -71,9 +50,7 @@ const DashboardEmpleado: React.FC = () => {
               <div className="row g-0 d-flex align-items-center">
                 <div className="col-md-8">
                   <div className="card-body">
-                    <h1 className="card-title">
-                      Hola, Juanito Kevin Cortez Padilla
-                    </h1>
+                    <h1 className="card-title">Hola, Juanito Kevin Cortez Padilla</h1>
                     <p className="card-text">
                       Ahora es un gran día para verificar tu sueldo :)
                     </p>
@@ -105,40 +82,63 @@ const DashboardEmpleado: React.FC = () => {
           </div>
         </div>
 
-
-        {/* Tabla de sueldos con DataTables */}
+        {/* Tabla de sueldos */}
         <div className="row mt-4">
           <div className="col-md-12">
             <table
-              id="planillasTable"
-              className="table table-hover table-striped text-center"
+              className="table table-hover text-center"
+              style={{
+                borderCollapse: "collapse",
+                width: "100%",
+                marginTop: "20px",
+              }}
             >
-              <thead>
+              <thead style={{ backgroundColor: "#f0f0f0" }}>
                 <tr>
-                  <th>Mes</th>
-                  <th>Año</th>
-                  <th>Sueldo Base</th>
-                  <th>Salario Líquido</th>
-                  <th>Boleta de Pago</th>
+                  <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                    Mes
+                  </th>
+                  <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                    Año
+                  </th>
+                  <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                    Sueldo Base
+                  </th>
+                  <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                    Salario Líquido
+                  </th>
+                  <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                    Boleta de Pago
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {planillas.map((planilla, index) => (
                   <tr key={index}>
-                    <td>{planilla.mes}</td>
-                    <td>{planilla.anio}</td>
-                    <td>${planilla.sueldoBase.toFixed(2)}</td>
-                    <td>${planilla.salarioLiquido.toFixed(2)}</td>
-                    <td>
+                    <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                      {planilla.mes}
+                    </td>
+                    <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                      {planilla.anio}
+                    </td>
+                    <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                      ${planilla.sueldoBase.toFixed(2)}
+                    </td>
+                    <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                      ${planilla.salarioLiquido.toFixed(2)}
+                    </td>
+                    <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
                       <a
                         href={planilla.boletaPagoLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn btn-custom"
+                        className="btn"
                         style={{
                           backgroundColor: "#C1D9D4",
                           color: "#2f3e55",
                           borderRadius: "5px",
+                          padding: "5px 15px",
+                          fontWeight: "bold",
                         }}
                       >
                         Descargar

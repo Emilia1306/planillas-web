@@ -20,12 +20,12 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/contador/dashboard" element={<DashboardContador />} />
         <Route path="/contador/unidad" element={<EmployeesPage />} />
-        <Route path="/contador/planilla" element={<PlanillasPage />} />
+        <Route path="/contador/planilla/:id" element={<PlanillasPage />} />
         <Route path="/contador/crear" element={<CrearPlanilla />} />
         <Route path="/contador/unidades" element={<UnidadesPage />} />
         <Route path="/contador/facultades" element={<FacultadesPage />} />
         <Route path="/empleado/dashboard" element={<DashboardEmpleado />} />
-        <Route path="/contador/planilla/detalle" element={<PlanillaDetalle />} />
+        <Route path="/contador/planilla/detalle/:id" element={<PlanillaDetalle />} />
         <Route path="/empleado/perfil" element={<UserProfile />} />
         <Route path="/empleado/perfil/editar-perfil" element={<EditUserForm />} />
       </Routes>

@@ -12,28 +12,28 @@ const EmployeesPage: React.FC = () => {
       nombres: "Juanito Kevin",
       apellidos: "Cortez Padilla",
       email: "aidonnowwhatcaniput@mail.com",
-      planillaLink: "/contador/planilla/",
+      planillaLink: "/contador/planilla/1",
     },
     {
       id: 2,
-      nombres: "Juanito Kevin",
-      apellidos: "Cortez Padilla",
-      email: "aidonnowwhatcaniput@mail.com",
-      planillaLink: "/contador/planilla/",
+      nombres: "María José",
+      apellidos: "Martínez López",
+      email: "mariajose@mail.com",
+      planillaLink: "/contador/planilla/2",
     },
     {
       id: 3,
-      nombres: "Juanito Kevin",
-      apellidos: "Cortez Padilla",
-      email: "aidonnowwhatcaniput@mail.com",
-      planillaLink: "/contador/planilla/",
+      nombres: "Carlos Andrés",
+      apellidos: "García Pérez",
+      email: "carlosandres@mail.com",
+      planillaLink: "/contador/planilla/3",
     },
   ];
 
-  const title = "Facultad"; // Cambiar dinámicamente según la unidad o facultad
+  const title = "Facultad";
 
   const handleViewPlanilla = (planillaLink: string) => {
-    navigate(planillaLink); // Navega a la ruta de la planilla
+    navigate(planillaLink);
   };
 
   return (
@@ -41,11 +41,11 @@ const EmployeesPage: React.FC = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh", // Ocupa toda la altura de la pantalla
-        width: "100vw", // Asegura que ocupe todo el ancho de la ventana
+        height: "100vh",
+        width: "100vw",
         margin: 0,
         padding: 0,
-        backgroundColor: "#FFFFFF", // Fondo de la página
+        backgroundColor: "#FFFFFF",
       }}
     >
       {/* Navbar */}
@@ -53,9 +53,9 @@ const EmployeesPage: React.FC = () => {
 
       {/* Contenido principal */}
       <div
-        className="w-100 " // Asegura que ocupe el ancho completo
+        className="w-100"
         style={{
-          flex: 1, // Permite que el contenido crezca para llenar el espacio restante
+          flex: 1,
           padding: "20px",
           display: "flex",
           flexDirection: "column",
@@ -76,26 +76,77 @@ const EmployeesPage: React.FC = () => {
           <h3>Empleados de {title}</h3>
         </div>
 
-        {/* Employee Table */}
+        {/* Tabla de empleados */}
         <div style={{ flex: 1, overflowY: "auto" }}>
-          <table className="table table-hover text-center">
-            <thead>
+          <table
+            className="table table-hover"
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              textAlign: "center",
+              fontSize: "16px",
+            }}
+          >
+            <thead style={{ backgroundColor: "#f0f0f0" }}>
               <tr>
-                <th>ID Empleado</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Email</th>
-                <th>Acciones</th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  ID Empleado
+                </th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Nombres
+                </th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Apellidos
+                </th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Email
+                </th>
+                <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody>
               {employees.map((employee) => (
                 <tr key={employee.id}>
-                  <td>{employee.id}</td>
-                  <td>{employee.nombres}</td>
-                  <td>{employee.apellidos}</td>
-                  <td>{employee.email}</td>
-                  <td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {employee.id}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {employee.nombres}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {employee.apellidos}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {employee.email}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
                     <button
                       className="btn"
                       style={{
@@ -104,7 +155,6 @@ const EmployeesPage: React.FC = () => {
                         borderRadius: "10px",
                         padding: "5px 15px",
                         border: "none",
-                        marginRight: "10px",
                       }}
                       onClick={() => handleViewPlanilla(employee.planillaLink)}
                     >

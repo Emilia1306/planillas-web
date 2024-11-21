@@ -18,7 +18,7 @@ const NavbarEmpleado: React.FC<NavbarEmpleadoProps> = ({ userName, userRole }) =
       <div className="container-fluid">
         {/* Logo */}
         <a className="navbar-brand" href="/empleado/dashboard">
-          <img src={logoEmpleado} alt="Logo" width="90" height="auto" />
+          <img src={logoEmpleado} alt="Logo" width="80" height="auto" />
         </a>
 
         {/* Dropdown del usuario */}
