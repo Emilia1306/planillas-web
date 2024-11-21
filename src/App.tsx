@@ -9,6 +9,7 @@ import UnidadesPage from "./pages/Contador/UnidadesPage";
 import DashboardEmpleado from "./pages/Empleado/DashboardEmpleado";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+import PlanillaDetalle from "./pages/Contador/PlanillaDetalle";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/contador/unidades" element={<UnidadesPage />} />
         <Route path="/contador/facultades" element={<FacultadesPage />} />
         <Route path="/empleado/dashboard" element={<DashboardEmpleado />} />
+        <Route path="/contador/planilla/detalle" element={<PlanillaDetalle />} />
       </Routes>
     </Router>
   );

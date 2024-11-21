@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarContador from "../../components/NavbarContador";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import $ from "jquery";
 import "datatables.net-bs5";
+import AgregarUnidad from "../../components/ModalUnidad";
 
 interface Unidad {
   id: number;
@@ -11,41 +12,59 @@ interface Unidad {
 }
 
 const UnidadesPage: React.FC = () => {
-  // Datos simulados
-  const unidades: Unidad[] = [
+  const [unidades, setUnidades] = useState<Unidad[]>([
     { id: 1, nombre: "Unidad 1", descripcion: "Descripción de la unidad 1" },
     { id: 2, nombre: "Unidad 2", descripcion: "Descripción de la unidad 2" },
     { id: 3, nombre: "Unidad 3", descripcion: "Descripción de la unidad 3" },
-  ];
+  ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingUnidad, setEditingUnidad] = useState<Unidad | null>(null);
 
   useEffect(() => {
-    // Inicializar DataTable
     const table = $("#unidadesTable").DataTable({
       paging: true,
       searching: true,
       info: true,
-      destroy: true, // Permite reinicializar si ya existe
+      destroy: true,
     });
 
     return () => {
-      // Destruir la instancia de DataTable al desmontar el componente
       table.destroy();
     };
-  }, []);
-
-  const handleEdit = (id: number) => {
-    console.log(`Editar unidad con ID: ${id}`);
-    // Lógica para editar
-  };
-
-  const handleDelete = (id: number) => {
-    console.log(`Eliminar unidad con ID: ${id}`);
-    // Lógica para eliminar
-  };
+  }, [unidades]);
 
   const handleAdd = () => {
-    console.log("Añadir nueva unidad");
-    // Lógica para añadir una nueva unidad
+    setIsModalOpen(true);
+    setIsEditing(false);
+    setEditingUnidad(null);
+  };
+
+  const handleEdit = (unidad: Unidad) => {
+    setIsModalOpen(true);
+    setIsEditing(true);
+    setEditingUnidad(unidad);
+  };
+
+  const handleAddUnidad = (nombre: string, descripcion: string) => {
+    const newUnidad = {
+      id: unidades.length + 1,
+      nombre,
+      descripcion,
+    };
+    setUnidades([...unidades, newUnidad]);
+  };
+
+  const handleEditUnidad = (nombre: string, descripcion: string) => {
+    if (editingUnidad) {
+      setUnidades(
+        unidades.map((unidad) =>
+          unidad.id === editingUnidad.id
+            ? { ...unidad, nombre, descripcion }
+            : unidad
+        )
+      );
+    }
   };
 
   return (
@@ -60,10 +79,8 @@ const UnidadesPage: React.FC = () => {
         backgroundColor: "#FFFFFF",
       }}
     >
-      {/* Navbar */}
       <NavbarContador userName="María Gonzáles" userRole="Contador/a" />
 
-      {/* Contenido principal */}
       <div
         style={{
           flex: 1,
@@ -72,7 +89,6 @@ const UnidadesPage: React.FC = () => {
           flexDirection: "column",
         }}
       >
-        {/* Main Card */}
         <div
           className="card"
           style={{
@@ -87,7 +103,6 @@ const UnidadesPage: React.FC = () => {
           <h3>Unidades</h3>
         </div>
 
-        {/* Botón de Añadir */}
         <div style={{ textAlign: "right", marginBottom: "15px" }}>
           <button
             className="btn"
@@ -104,7 +119,6 @@ const UnidadesPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Tabla de unidades */}
         <table
           id="unidadesTable"
           className="table table-hover table-striped"
@@ -135,7 +149,7 @@ const UnidadesPage: React.FC = () => {
                       marginRight: "10px",
                       border: "none",
                     }}
-                    onClick={() => handleEdit(unidad.id)}
+                    onClick={() => handleEdit(unidad)}
                   >
                     Editar
                   </button>
@@ -148,7 +162,6 @@ const UnidadesPage: React.FC = () => {
                       padding: "5px 15px",
                       border: "none",
                     }}
-                    onClick={() => handleDelete(unidad.id)}
                   >
                     Eliminar
                   </button>
@@ -158,6 +171,19 @@ const UnidadesPage: React.FC = () => {
           </tbody>
         </table>
       </div>
+
+      <AgregarUnidad
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={isEditing ? handleEditUnidad : handleAddUnidad}
+        title={isEditing ? "Editar Unidad" : "Agregar Unidad"}
+        initialValues={
+          isEditing && editingUnidad
+            ? { nombre: editingUnidad.nombre, descripcion: editingUnidad.descripcion }
+            : undefined
+        }
+        buttonLabel={isEditing ? "Actualizar" : "Guardar"}
+      />
     </div>
   );
 };

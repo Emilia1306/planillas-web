@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarContador from "../../components/NavbarContador";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import $ from "jquery";
 import "datatables.net-bs5";
+import AgregarFacultad from "../../components/ModalFacultad";
 
 interface Facultad {
   id: number;
@@ -11,41 +12,59 @@ interface Facultad {
 }
 
 const FacultadesPage: React.FC = () => {
-  // Datos simulados
-  const facultades: Facultad[] = [
+  const [facultades, setFacultades] = useState<Facultad[]>([
     { id: 1, nombre: "Facultad 1", descripcion: "Descripción de la facultad 1" },
     { id: 2, nombre: "Facultad 2", descripcion: "Descripción de la facultad 2" },
     { id: 3, nombre: "Facultad 3", descripcion: "Descripción de la facultad 3" },
-  ];
+  ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingFacultad, setEditingFacultad] = useState<Facultad | null>(null);
 
   useEffect(() => {
-    // Inicializar DataTable
     const table = $("#facultadesTable").DataTable({
       paging: true,
       searching: true,
       info: true,
-      destroy: true, // Permite reinicializar si ya existe
+      destroy: true,
     });
 
     return () => {
-      // Destruir la instancia de DataTable al desmontar el componente
       table.destroy();
     };
-  }, []);
-
-  const handleEdit = (id: number) => {
-    console.log(`Editar facultad con ID: ${id}`);
-    // Lógica para editar
-  };
-
-  const handleDelete = (id: number) => {
-    console.log(`Eliminar facultad con ID: ${id}`);
-    // Lógica para eliminar
-  };
+  }, [facultades]);
 
   const handleAdd = () => {
-    console.log("Añadir nueva facultad");
-    // Lógica para añadir una nueva facultad
+    setIsModalOpen(true);
+    setIsEditing(false);
+    setEditingFacultad(null);
+  };
+
+  const handleEdit = (facultad: Facultad) => {
+    setIsModalOpen(true);
+    setIsEditing(true);
+    setEditingFacultad(facultad);
+  };
+
+  const handleAddFacultad = (nombre: string, descripcion: string) => {
+    const newFacultad = {
+      id: facultades.length + 1,
+      nombre,
+      descripcion,
+    };
+    setFacultades([...facultades, newFacultad]);
+  };
+
+  const handleEditFacultad = (nombre: string, descripcion: string) => {
+    if (editingFacultad) {
+      setFacultades(
+        facultades.map((facultad) =>
+          facultad.id === editingFacultad.id
+            ? { ...facultad, nombre, descripcion }
+            : facultad
+        )
+      );
+    }
   };
 
   return (
@@ -60,10 +79,8 @@ const FacultadesPage: React.FC = () => {
         backgroundColor: "#FFFFFF",
       }}
     >
-      {/* Navbar */}
       <NavbarContador userName="María Gonzáles" userRole="Contador/a" />
 
-      {/* Contenido principal */}
       <div
         style={{
           flex: 1,
@@ -72,7 +89,6 @@ const FacultadesPage: React.FC = () => {
           flexDirection: "column",
         }}
       >
-        {/* Main Card */}
         <div
           className="card"
           style={{
@@ -87,7 +103,6 @@ const FacultadesPage: React.FC = () => {
           <h3>Facultades</h3>
         </div>
 
-        {/* Botón de Añadir */}
         <div style={{ textAlign: "right", marginBottom: "15px" }}>
           <button
             className="btn"
@@ -104,10 +119,9 @@ const FacultadesPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Tabla de facultades */}
         <table
           id="facultadesTable"
-          className="table table-hover "
+          className="table table-hover"
           style={{ width: "100%" }}
         >
           <thead>
@@ -135,7 +149,7 @@ const FacultadesPage: React.FC = () => {
                       marginRight: "10px",
                       border: "none",
                     }}
-                    onClick={() => handleEdit(facultad.id)}
+                    onClick={() => handleEdit(facultad)}
                   >
                     Editar
                   </button>
@@ -148,7 +162,6 @@ const FacultadesPage: React.FC = () => {
                       padding: "5px 15px",
                       border: "none",
                     }}
-                    onClick={() => handleDelete(facultad.id)}
                   >
                     Eliminar
                   </button>
@@ -158,6 +171,22 @@ const FacultadesPage: React.FC = () => {
           </tbody>
         </table>
       </div>
+
+      <AgregarFacultad
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={isEditing ? handleEditFacultad : handleAddFacultad}
+        title={isEditing ? "Editar Facultad" : "Agregar Facultad"}
+        initialValues={
+          isEditing && editingFacultad
+            ? {
+                nombre: editingFacultad.nombre,
+                descripcion: editingFacultad.descripcion,
+              }
+            : undefined
+        }
+        buttonLabel={isEditing ? "Actualizar" : "Guardar"}
+      />
     </div>
   );
 };
