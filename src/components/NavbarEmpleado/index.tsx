@@ -32,7 +32,7 @@ const NavbarEmpleado: React.FC<NavbarEmpleadoProps> = ({ userName, userRole }) =
               aria-expanded="false"
               style={{ textDecoration: "none" }}
             >
-              <div className="user-details">
+              <div className="user-details text-black">
                 <span>{userName}</span>
                 <br />
                 <small>{userRole}</small> 
