@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import NavbarContador from "../../components/NavbarContador";
-import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-import $ from "jquery";
-import "datatables.net-bs5";
 import AgregarUnidad from "../../components/ModalUnidad";
 
 interface Unidad {
@@ -20,19 +17,6 @@ const UnidadesPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingUnidad, setEditingUnidad] = useState<Unidad | null>(null);
-
-  useEffect(() => {
-    const table = $("#unidadesTable").DataTable({
-      paging: true,
-      searching: true,
-      info: true,
-      destroy: true,
-    });
-
-    return () => {
-      table.destroy();
-    };
-  }, [unidades]);
 
   const handleAdd = () => {
     setIsModalOpen(true);
@@ -53,6 +37,7 @@ const UnidadesPage: React.FC = () => {
       descripcion,
     };
     setUnidades([...unidades, newUnidad]);
+    setIsModalOpen(false);
   };
 
   const handleEditUnidad = (nombre: string, descripcion: string) => {
@@ -64,7 +49,12 @@ const UnidadesPage: React.FC = () => {
             : unidad
         )
       );
+      setIsModalOpen(false);
     }
+  };
+
+  const handleDelete = (id: number) => {
+    //setUnidades(unidades.filter((unidad) => unidad.id !== id));
   };
 
   return (
@@ -120,25 +110,49 @@ const UnidadesPage: React.FC = () => {
         </div>
 
         <table
-          id="unidadesTable"
-          className="table table-hover table-striped"
-          style={{ width: "100%" }}
+          className="table table-hover"
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            textAlign: "left",
+          }}
         >
           <thead>
-            <tr>
-              <th>ID Unidad</th>
-              <th>Nombres</th>
-              <th>Descripción</th>
-              <th>Acciones</th>
+            <tr style={{ backgroundColor: "#f0f0f0" }}>
+              <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                ID Unidad
+              </th>
+              <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                Nombres
+              </th>
+              <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                Descripción
+              </th>
+              <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                Acciones
+              </th>
             </tr>
           </thead>
           <tbody>
             {unidades.map((unidad) => (
               <tr key={unidad.id}>
-                <td>{unidad.id}</td>
-                <td>{unidad.nombre}</td>
-                <td>{unidad.descripcion}</td>
-                <td>
+                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                  {unidad.id}
+                </td>
+                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                  {unidad.nombre}
+                </td>
+                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                  {unidad.descripcion}
+                </td>
+                <td
+                  style={{
+                    padding: "10px",
+                    borderBottom: "1px solid #ddd",
+                    display: "flex",
+                    gap: "10px",
+                  }}
+                >
                   <button
                     className="btn"
                     style={{
@@ -146,7 +160,6 @@ const UnidadesPage: React.FC = () => {
                       color: "#2f3e55",
                       borderRadius: "10px",
                       padding: "5px 15px",
-                      marginRight: "10px",
                       border: "none",
                     }}
                     onClick={() => handleEdit(unidad)}
@@ -162,6 +175,7 @@ const UnidadesPage: React.FC = () => {
                       padding: "5px 15px",
                       border: "none",
                     }}
+                    onClick={() => handleDelete(unidad.id)}
                   >
                     Eliminar
                   </button>

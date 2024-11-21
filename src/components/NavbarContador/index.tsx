@@ -36,13 +36,6 @@ const NavbarContador: React.FC<NavbarContadorProps> = ({ userName, userRole }) =
             >
               Unidades
             </a>
-            <a
-              className="nav-link text-dark mx-2"
-              href="/contador/empleados"
-              style={{ textDecoration: "none", fontWeight: "500" }}
-            >
-              Empleados
-            </a>
           </div>
         </div>
 

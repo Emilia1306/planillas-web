@@ -1,6 +1,5 @@
 import React from "react";
 import NavbarContador from "../../components/NavbarContador";
-import EmployeeTable from "../../components/TablaEmpleados";
 import { useNavigate } from "react-router-dom";
 
 const EmployeesPage: React.FC = () => {
@@ -79,7 +78,7 @@ const EmployeesPage: React.FC = () => {
 
         {/* Employee Table */}
         <div style={{ flex: 1, overflowY: "auto" }}>
-          <table className="table table-hover table-striped text-center">
+          <table className="table table-hover text-center">
             <thead>
               <tr>
                 <th>ID Empleado</th>

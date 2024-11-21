@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import NavbarContador from "../../components/NavbarContador";
-import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-import $ from "jquery";
-import "datatables.net-bs5";
 import AgregarFacultad from "../../components/ModalFacultad";
 
 interface Facultad {
@@ -20,19 +17,6 @@ const FacultadesPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingFacultad, setEditingFacultad] = useState<Facultad | null>(null);
-
-  useEffect(() => {
-    const table = $("#facultadesTable").DataTable({
-      paging: true,
-      searching: true,
-      info: true,
-      destroy: true,
-    });
-
-    return () => {
-      table.destroy();
-    };
-  }, [facultades]);
 
   const handleAdd = () => {
     setIsModalOpen(true);
@@ -53,6 +37,7 @@ const FacultadesPage: React.FC = () => {
       descripcion,
     };
     setFacultades([...facultades, newFacultad]);
+    setIsModalOpen(false);
   };
 
   const handleEditFacultad = (nombre: string, descripcion: string) => {
@@ -64,7 +49,12 @@ const FacultadesPage: React.FC = () => {
             : facultad
         )
       );
+      setIsModalOpen(false);
     }
+  };
+
+  const handleDelete = (id: number) => {
+    
   };
 
   return (
@@ -120,25 +110,49 @@ const FacultadesPage: React.FC = () => {
         </div>
 
         <table
-          id="facultadesTable"
           className="table table-hover"
-          style={{ width: "100%" }}
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            textAlign: "left",
+          }}
         >
           <thead>
-            <tr>
-              <th>ID Facultad</th>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Acciones</th>
+            <tr style={{ backgroundColor: "#f0f0f0" }}>
+              <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                ID Facultad
+              </th>
+              <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                Nombre
+              </th>
+              <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                Descripción
+              </th>
+              <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
+                Acciones
+              </th>
             </tr>
           </thead>
           <tbody>
             {facultades.map((facultad) => (
               <tr key={facultad.id}>
-                <td>{facultad.id}</td>
-                <td>{facultad.nombre}</td>
-                <td>{facultad.descripcion}</td>
-                <td>
+                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                  {facultad.id}
+                </td>
+                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                  {facultad.nombre}
+                </td>
+                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                  {facultad.descripcion}
+                </td>
+                <td
+                  style={{
+                    padding: "10px",
+                    borderBottom: "1px solid #ddd",
+                    display: "flex",
+                    gap: "10px",
+                  }}
+                >
                   <button
                     className="btn"
                     style={{
@@ -146,7 +160,6 @@ const FacultadesPage: React.FC = () => {
                       color: "#2f3e55",
                       borderRadius: "10px",
                       padding: "5px 15px",
-                      marginRight: "10px",
                       border: "none",
                     }}
                     onClick={() => handleEdit(facultad)}
@@ -162,6 +175,7 @@ const FacultadesPage: React.FC = () => {
                       padding: "5px 15px",
                       border: "none",
                     }}
+                    onClick={() => handleDelete(facultad.id)}
                   >
                     Eliminar
                   </button>

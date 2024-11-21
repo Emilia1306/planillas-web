@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 interface AgregarFacultadProps {
   isOpen: boolean;
@@ -19,6 +19,13 @@ const AgregarFacultad: React.FC<AgregarFacultadProps> = ({
 }) => {
   const [nombre, setNombre] = React.useState(initialValues.nombre);
   const [descripcion, setDescripcion] = React.useState(initialValues.descripcion);
+
+  useEffect(() => {
+    if (initialValues) {
+      setNombre(initialValues.nombre);
+      setDescripcion(initialValues.descripcion);
+    }
+  }, [initialValues]);
 
   const handleSubmit = () => {
     onSubmit(nombre, descripcion);

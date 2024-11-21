@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 interface AgregarUnidadProps {
   isOpen: boolean;
@@ -19,6 +19,14 @@ const AgregarUnidad: React.FC<AgregarUnidadProps> = ({
 }) => {
   const [nombre, setNombre] = React.useState(initialValues.nombre);
   const [descripcion, setDescripcion] = React.useState(initialValues.descripcion);
+
+  // Sincroniza los valores iniciales con los estados locales cuando cambien
+  useEffect(() => {
+    if (initialValues) {
+      setNombre(initialValues.nombre);
+      setDescripcion(initialValues.descripcion);
+    }
+  }, [initialValues]);
 
   const handleSubmit = () => {
     onSubmit(nombre, descripcion);

@@ -4,7 +4,6 @@ import DashboardContador from "./pages/Contador/DashboardContador";
 import EmployeesPage from "./pages/Contador/EmpleadosPage";
 import PlanillasPage from "./pages/Contador/PlanillasPage";
 import CrearPlanilla from "./pages/Contador/CrearPlanilla";
-import EmployeesGestionPage from "./pages/Contador/EmpleadosGestionPage";
 import FacultadesPage from "./pages/Contador/FacultadesPage";
 import UnidadesPage from "./pages/Contador/UnidadesPage";
 import DashboardEmpleado from "./pages/Empleado/DashboardEmpleado";
@@ -23,7 +22,6 @@ function App() {
         <Route path="/contador/unidad" element={<EmployeesPage />} />
         <Route path="/contador/planilla" element={<PlanillasPage />} />
         <Route path="/contador/crear" element={<CrearPlanilla />} />
-        <Route path="/contador/empleados" element={<EmployeesGestionPage />} />
         <Route path="/contador/unidades" element={<UnidadesPage />} />
         <Route path="/contador/facultades" element={<FacultadesPage />} />
         <Route path="/empleado/dashboard" element={<DashboardEmpleado />} />
