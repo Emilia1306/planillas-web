@@ -1,6 +1,6 @@
 import React from "react";
-import logoEmpleado from "../assets/logoEmpleado.png";
-import empleadoAvatar from "../assets/empleado_av.png";
+import logoEmpleado from "../../assets/logoEmpleado.png";
+import empleadoAvatar from "../../assets/empleado_av.png";
 
 interface NavbarEmpleadoProps {
   userName: string; 
@@ -34,6 +34,7 @@ const NavbarEmpleado: React.FC<NavbarEmpleadoProps> = ({ userName, userRole }) =
             >
               <div className="user-details">
                 <span>{userName}</span>
+                <br />
                 <small>{userRole}</small> 
               </div>
               <img

@@ -18,7 +18,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({ employees }) => {
   }
 
   return (
-    <table className="table table-borderless">
+    <table className="table table-hover">
       <thead>
         <tr>
           <th>ID Empleado</th>

@@ -15,11 +15,36 @@ const NavbarContador: React.FC<NavbarContadorProps> = ({ userName, userRole }) =
 
   return (
     <nav className="navbar navbar-light bg-light">
-      <div className="container-fluid mx-2">
-        {/* Logo */}
-        <a className="navbar-brand" href="/contador/dashboard">
-          <img src={logoContador} alt="Logo" width="80" height="auto" />
-        </a>
+      <div className="container-fluid d-flex align-items-center justify-content-between">
+        {/* Logo y enlaces */}
+        <div className="d-flex align-items-center">
+          <a className="navbar-brand" href="/contador/dashboard">
+            <img src={logoContador} alt="Logo" width="80" height="auto" />
+          </a>
+          <div className="d-flex ms-3">
+            <a
+              className="nav-link text-dark mx-2"
+              href="/contador/facultades"
+              style={{ textDecoration: "none", fontWeight: "500" }}
+            >
+              Facultades
+            </a>
+            <a
+              className="nav-link text-dark mx-2"
+              href="/contador/unidades"
+              style={{ textDecoration: "none", fontWeight: "500" }}
+            >
+              Unidades
+            </a>
+            <a
+              className="nav-link text-dark mx-2"
+              href="/contador/empleados"
+              style={{ textDecoration: "none", fontWeight: "500" }}
+            >
+              Empleados
+            </a>
+          </div>
+        </div>
 
         {/* Dropdown del usuario */}
         <div className="d-flex align-items-center">
@@ -34,8 +59,8 @@ const NavbarContador: React.FC<NavbarContadorProps> = ({ userName, userRole }) =
             >
               <div className="user-details text-black">
                 <span>{userName}</span>
-                <br/>
-                <small>{userRole}</small> 
+                <br />
+                <small>{userRole}</small>
               </div>
               <img
                 src={contadorAvatar}
