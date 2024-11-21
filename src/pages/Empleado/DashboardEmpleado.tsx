@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavbarEmpleado from "../../components/NavbarEmpleado";
-import employeeImage from "../../assets/employee.png"
+import employeeImage from "../../assets/employee.png";
+import $ from "jquery";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+import "datatables.net-bs5";
 
 const DashboardEmpleado: React.FC = () => {
   // Simulación de datos
@@ -33,6 +36,21 @@ const DashboardEmpleado: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    // Inicializar DataTable
+    const table = $("#planillasTable").DataTable({
+      paging: true,
+      searching: true,
+      info: true,
+      destroy: true, // Permite reinicializar si ya existe
+    });
+
+    return () => {
+      // Destruir la instancia de DataTable al desmontar el componente
+      table.destroy();
+    };
+  }, []);
+
   return (
     <div className="d-flex flex-column" style={{ backgroundColor: "#FFFFFF" }}>
       {/* Navbar del empleado */}
@@ -42,7 +60,7 @@ const DashboardEmpleado: React.FC = () => {
       <div className="container-fluid mt-4">
         {/* Card de bienvenida */}
         <div className="row">
-          <div className="col-md-12 ">
+          <div className="col-md-12">
             <div
               className="card"
               style={{
@@ -89,54 +107,14 @@ const DashboardEmpleado: React.FC = () => {
           </div>
         </div>
 
-        {/* Filtros */}
-        <form className="row mt-4">
-          <div className="col-md-12 d-flex justify-content-end">
-            {/* Selector de Mes */}
-            <div className="custom-select-container me-2">
-              <select className="custom-select" id="month" name="mes">
-                <option value="">Mes</option>
-                {meses.map((mes) => (
-                  <option key={mes} value={mes}>
-                    {mes}
-                  </option>
-                ))}
-              </select>
-            </div>
 
-            {/* Selector de Año */}
-            <div className="custom-select-container me-2">
-              <select className="custom-select" id="year" name="anio">
-                <option value="">Año</option>
-                {years.map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Botón Filtrar */}
-            <button
-              type="submit"
-              className="btn-filtrar"
-              style={{
-                backgroundColor: "#C1D9D4",
-                border: "none",
-                color: "#2f3e55",
-                padding: "5px 15px",
-                borderRadius: "5px",
-              }}
-            >
-              <i className="bi bi-funnel-fill"></i>
-            </button>
-          </div>
-        </form>
-
-        {/* Tabla de sueldos */}
+        {/* Tabla de sueldos con DataTables */}
         <div className="row mt-4">
           <div className="col-md-12">
-            <table className="table table-hover table-striped text-center">
+            <table
+              id="planillasTable"
+              className="table table-hover table-striped text-center"
+            >
               <thead>
                 <tr>
                   <th>Mes</th>
@@ -147,40 +125,29 @@ const DashboardEmpleado: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {planillas.length > 0 ? (
-                  planillas.map((planilla, index) => (
-                    <tr key={index}>
-                      <td>{planilla.mes}</td>
-                      <td>{planilla.anio}</td>
-                      <td>${planilla.sueldoBase.toFixed(2)}</td>
-                      <td>${planilla.salarioLiquido.toFixed(2)}</td>
-                      <td>
-                        <a
-                          href={planilla.boletaPagoLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn btn-custom"
-                          style={{
-                            backgroundColor: "#C1D9D4",
-                            color: "#2f3e55",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          <i
-                            className="fa-solid fa-file-pdf"
-                            style={{ color: "#000000" }}
-                          ></i>
-                        </a>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={5}>
-                      No se encontraron planillas para los filtros seleccionados.
+                {planillas.map((planilla, index) => (
+                  <tr key={index}>
+                    <td>{planilla.mes}</td>
+                    <td>{planilla.anio}</td>
+                    <td>${planilla.sueldoBase.toFixed(2)}</td>
+                    <td>${planilla.salarioLiquido.toFixed(2)}</td>
+                    <td>
+                      <a
+                        href={planilla.boletaPagoLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-custom"
+                        style={{
+                          backgroundColor: "#C1D9D4",
+                          color: "#2f3e55",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Descargar
+                      </a>
                     </td>
                   </tr>
-                )}
+                ))}
               </tbody>
             </table>
           </div>
