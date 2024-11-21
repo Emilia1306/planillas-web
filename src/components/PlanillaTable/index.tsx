@@ -19,7 +19,7 @@ const PlanillaTable: React.FC<PlanillaTableProps> = ({ planillas }) => {
   }
 
   return (
-    <table className="table table-hover table-striped">
+    <table className="table table-hover">
       <thead>
         <tr>
           <th>Mes</th>
@@ -41,10 +41,12 @@ const PlanillaTable: React.FC<PlanillaTableProps> = ({ planillas }) => {
             <td>
               <a
                 href={planilla.detalleLink}
-                className="btn btn-primary"
+                className="btn"
                 style={{
                   borderRadius: "10px",
                   padding: "5px 15px",
+                  backgroundColor: "#c1d9d4",
+
                 }}
               >
                 Detalle de Planilla

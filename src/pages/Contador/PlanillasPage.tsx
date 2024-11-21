@@ -40,22 +40,22 @@ const PlanillasPage: React.FC = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh", // Ocupa toda la altura de la pantalla
-        width: "100vw", // Ocupa todo el ancho de la pantalla
-        overflow: "hidden", // Evita que el contenido se desborde
-        backgroundColor: "#ffffff", // Fondo de la página
+        height: "100vh",
+        width: "100vw", 
+        overflow: "hidden", 
+        backgroundColor: "#ffffff",
       }}
     >
       {/* Navbar */}
       <NavbarContador userName="María Gonzáles" userRole="Contador/a" />
 
-      <div
+      <div className="mx-2"
         style={{
           flex: 1,
           display: "flex",
           flexDirection: "column",
           padding: "20px",
-          overflowY: "auto", // Scroll para contenido si es necesario
+          overflowY: "auto", 
         }}
       >
         {/* Main Card */}
@@ -88,7 +88,7 @@ const PlanillasPage: React.FC = () => {
         <div
           style={{
             flex: 1,
-            overflowY: "auto", // Agrega scroll solo a la tabla si es necesario
+            overflowY: "auto", 
             display: "flex",
             flexDirection: "column",
           }}
